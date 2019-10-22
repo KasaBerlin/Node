@@ -10,3 +10,8 @@ module.exports = (numStars, name) => {
     return starSign;
   }
 };
+
+// numStars=10, name="hi"
+// console.log("*".repeat(stars));
+// console.log(name);
+// console.log("*".repeat(stars));

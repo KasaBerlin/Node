@@ -1,0 +1,16 @@
+{
+  "name": "@pudelgulasch/random-numbers",
+  "version": "1.0.0",
+  "description": "A single app generate a random number between 0 - 1000",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Katrin",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "*"
+  },
+  "devDependencies": {}
+}

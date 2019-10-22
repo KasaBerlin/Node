@@ -1,0 +1,31 @@
+Commands!
+
+npm brings up the help page 
+
+npm init - initializes our package.json / with -y flag skip modify instead set before with npm set init-license "MIT"
+
+npm set init- takes a string as an argument, initializing a liscense 
+
+npm i -D - D-flag sets as dev dependency // anything to do with testing -> devDependency
+
+npm root -g - root path to globally intalled dependencies
+
+npm uninstall -D 
+
+"scripts": {
+    "start": "node index.js"
+  },
+
+npm start 
+
+"lodash": "*" - latest version gets installed 
+
+npm login - login data from https://www.npmjs.com
+
+npm publish
+
+npm search random-numbers
+
+scoped to our account:
+  "name": "@pudelgulasch/random-numbers"
+  npm publish --access public
