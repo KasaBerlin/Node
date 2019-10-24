@@ -8,9 +8,9 @@ const args = process.argv.slice(2);
 
 const gzip = zlib.createGzip();
 
-const zipIt = input => {
+const zipIt = (input = "input.txt") => {
   const inp = fs.createReadStream(input);
-  const out = fs.createWriteStream("newZip.gz");
+  const out = fs.createWriteStream("newZip.txt.gz");
   inp
     .pipe(gzip)
     .on("error", () => {
