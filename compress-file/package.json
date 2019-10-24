@@ -1,0 +1,14 @@
+{
+  "name": "compress-file",
+  "version": "1.0.0",
+  "description": "### Compress File",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Katrin",
+  "license": "MIT",
+  "dependencies": {
+    "zlib": "^1.0.5"
+  }
+}
