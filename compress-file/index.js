@@ -11,11 +11,12 @@ const args = process.argv.slice(2);
 
 const zipIt = (input = "input.txt") => {
   const inpUn = fs.createReadStream(input);
-  const inp = new Buffer(inpUn);
+  console.log(inpUn);
+  // const inp = new Buffer(inpUn);
   const out = fs.createWriteStream("input.txt.gz");
   const gzip = zlib.createGzip();
-  console.log(inp);
-  inp
+  // console.log(inp);
+  inpUn
     .pipe(gzip)
     .on("error", () => {
       // handle error
