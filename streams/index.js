@@ -35,7 +35,8 @@ let word = "Transylvania";
 let wordCounter = 0;
 
 let regex = new RegExp(word.toLowerCase(), "g");
-// to make the search case insensitive (finding all different spellings like Dracula, DRACULA and dracula) the toLowerCase() method is used on the word we are searching for
+// to make the search case insensitive (finding all different spellings like Dracula, DRACULA and dracula) 
+// the toLowerCase() method is used on the word we are searching for
 
 myStream.on("data", chunk => {
   console.log(`Reading chunk no ${chunkNumber}`);
