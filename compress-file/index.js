@@ -1,5 +1,6 @@
 const fs = require("fs");
 const zlib = require("zlib");
+const path = require("path");
 const args = process.argv.slice(2);
 
 // Note that node-zlib is only intended for small
@@ -9,9 +10,12 @@ const args = process.argv.slice(2);
 // making it unlikely that one would need to ever
 // use require('buffer').Buffer.
 
+const [filePath = path.join(__dirname, "input.txt")] = process.argv.slice(2);
+// compress the file input.txt to input.
+
 const zipIt = (input = "input.txt") => {
   const inpUn = fs.createReadStream(input);
-  console.log(inpUn);
+  // console.log(inpUn);
   // const inp = new Buffer(inpUn);
   const out = fs.createWriteStream("input.txt.gz");
   const gzip = zlib.createGzip();
