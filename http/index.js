@@ -23,17 +23,17 @@ const http = require("http");
 
 const axios = require("axios");
 
-// const url = "https://official-joke-api.appspot.com/jokes/random";
+const url = "https://official-joke-api.appspot.com/jokes/random";
 
-// axios.get(url).then(response => {
-//   //   console.log(response.data);
-//   let joke = response.data;
-//   console.log(joke.setup);
-//   for (let i = 0; i < 20; i++) {
-//     console.log("|");
-//   }
-//   console.log(joke.punchline);
-// });
+axios.get(url).then(response => {
+  //   console.log(response.data);
+  let joke = response.data;
+  console.log(joke.setup);
+  for (let i = 0; i < 20; i++) {
+    console.log("|");
+  }
+  console.log(joke.punchline);
+});
 
 // the joy of axios
 
@@ -49,21 +49,21 @@ const axios = require("axios");
 
 // AXIOS.all
 
-axios
-  .all([
-    axios.get(
-      "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2018-10-29"
-    ),
-    axios.get(
-      "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2017-10-29"
-    )
-  ])
-  .then(
-    axios.spread((response1, response2) => {
-      console.log(response1.data.url);
-      console.log(response2.data.url);
-    })
-  )
-  .catch(error => {
-    console.error(error);
-  });
+// axios
+//   .all([
+//     axios.get(
+//       "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2018-10-29"
+//     ),
+//     axios.get(
+//       "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2017-10-29"
+//     )
+//   ])
+//   .then(
+//     axios.spread((response1, response2) => {
+//       console.log(response1.data.url);
+//       console.log(response2.data.url);
+//     })
+//   )
+//   .catch(error => {
+//     console.error(error);
+//   });
