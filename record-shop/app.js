@@ -7,7 +7,7 @@ const logger = require("morgan");
 // Routers
 const indexRouter = require("./routes/index");
 const getRecords = require("./routes/getRecords.js");
-const postRecords = require("./routes/postRecords.js");
+// const postRecords = require("./routes/postRecords.js");
 // Initialize
 const app = express();
 
@@ -23,9 +23,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-app.use("/api", indexRouter);
+app.use("/", indexRouter);
 app.use("/records", getRecords);
-app.use("/records", postRecords);
+
+// app.use("/records", postRecords);
 
 // const low = require("lowdb");
 // const FileSync = require("lowdb/adapters/FileSync");
