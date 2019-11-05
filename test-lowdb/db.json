@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "artist": "The Fall",
+      "title": "Hex Education Hour",
+      "year": 1981
+    },
+    {
+      "artist": "The Fall",
+      "title": "Bend Sinister",
+      "year": 1981
+    }
+  ],
+  "users": [
+    {
+      "name": "Sylvia",
+      "lastVisit": "2019-11-05T08:45:00.132Z",
+      "visits": 5
+    },
+    {
+      "name": "Kohei",
+      "lastVisit": "2019-11-05T08:45:00.132Z",
+      "visits": 5
+    },
+    {
+      "name": "Rufus",
+      "lastVisit": "2019-11-05T08:45:00.133Z",
+      "visits": 5
+    }
+  ]
+}

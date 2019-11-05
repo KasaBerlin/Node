@@ -3,6 +3,7 @@ const router = express.Router();
 const members = require("../../Members");
 const logger = require("../../middleware/logger");
 const uuid = require("uuid");
+
 // gets all members
 router.get("/", logger, (req, res) => {
   res.json(members);

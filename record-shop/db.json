@@ -1,0 +1,20 @@
+{
+  "records": [],
+  "users": [
+    {
+      "name": "Sylvia",
+      "lastVisit": "2019-11-05T13:41:29.203Z",
+      "visits": 5
+    },
+    {
+      "name": "Kohei",
+      "lastVisit": "2019-11-05T13:41:29.204Z",
+      "visits": 5
+    },
+    {
+      "name": "Rufus",
+      "lastVisit": "2019-11-05T13:41:29.204Z",
+      "visits": 5
+    }
+  ]
+}
