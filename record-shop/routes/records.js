@@ -1,33 +1,59 @@
-var express = require("express");
-var router = express.Router();
-const uuid=require("uuid");
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-const adapter = new FileSync('db.json')
-const db = low(adapter)
+const express = require("express");
+const router = express.Router();
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
+const adapter = new FileSync("data/db.json");
+const db = low(adapter);
 
-// Set some defaults (required if your JSON file is empty)
-db.defaults({records:[]})
-  .write()
-const records=db.get("records")
+const {
+  getRecords,
+  getRecord,
+  deleteRecord,
+  updateRecord,
+  addRecord
+} = require("../controllers/recordsController");
 
-/* GET users listing. */
-router.get("/records", function(req, res, next) {
-records.value().length===0? res.send("records database is still empty"):
-res.json(records);
-});
+router
+  .route("/")
+  .get(getRecords)
+  .post(addRecord);
 
-router.post("/records", (req, res) => {
-  const newRecord = {
-    id: uuid.v4(),
-    artist: req.body.artist,
-    title: req.body.title,
-    year: req.body.year
-  };
-  if (!newRecord.title || !newRecord.artist || !newRecord.year) {
-    return res.status(400).json({ message: "please include record data" });
-  } else db.get("records").push(newRecord).write()
-  res.json(records); // sends
-});
+router
+  .route("/:id")
+  .get(getRecord)
+  .delete(deleteRecord)
+  .put(updateRecord);
 
 module.exports = router;
+
+// single routes
+// router.get("/", getRecords);
+// router.post("/", addRecord);
+
+// my solution
+// (req, res) => {
+//   const newRecord = {
+//     id: uuid.v4(),
+//     artist: req.body.artist,
+//     title: req.body.title,
+//     year: req.body.year
+//   };
+//   if (!newRecord.title || !newRecord.artist || !newRecord.year) {
+//     return res.status(400).json({ message: "please include record data" });
+//   } else
+//     db.get("records")
+//       .push(newRecord)
+//       .write();
+//   res.json(records); // sends
+// });
+
+// router.delete("/records/:artist", function(req, res, next) {
+//   if (req.params.artist === records.artist) {
+//     res.json(records.artist);
+//     db.get("records")
+//       .remove(records.artist)
+//       .write();
+//   } else {
+//     res.send("found nothing");
+//   }
+// });

@@ -1,30 +1,54 @@
-// External Dependencies
+/** EXTERNAL DEPENDENCIES */
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
 
-// Routers
+/** ROUTERS */
 const indexRouter = require("./routes/index");
-const indexRecords = require("./routes/records.js");
-// const postRecords = require("./routes/postRecords.js");
-// Initialize
+const usersRouter = require("./routes/users");
+const recordsRouter = require("./routes/records");
+const { setCors } = require("./middleware/security");
+
+/** INIT */
 const app = express();
 
-// Logging
+/** LOGGING */
 app.use(logger("dev"));
 
-// Request Parcers
+/** SETTING UP LOWDB */
+const adapter = new FileSync("data/db.json");
+const db = low(adapter);
+db.defaults({ records: [] }).write();
+
+/** REQUEST PARSERS */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(setCors);
 
-// Static files
+/** STATIC FILES*/
 app.use(express.static(path.join(__dirname, "public")));
 
-// Routes
+/** ROUTES */
 app.use("/", indexRouter);
+app.use("/users", usersRouter);
 app.use("/api", indexRecords);
 
-// Path
+// ERROR HANDLING
+app.use((req, res, next) => {
+  const error = new Error("Error 404 - This site does not exist");
+  error.status = 404;
+  next(error);
+});
+
+app.use((err, req, res, next) => {
+  error: {
+    message: err.message;
+  }
+});
+
+/** EXPORT PATH */
 module.exports = app;
