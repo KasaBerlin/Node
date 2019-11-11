@@ -3,16 +3,20 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("data/db.json");
 const db = low(adapter);
 
-exports.getRecords = (req, res) => {
-  records.value().length === 0
-    ? res.status(200).res.send("records database is still empty")
-    : res.status(200).json(records);
+exports.getRecords = (req, res, next) => {
+  const records = db.get("records").value();
+  records.length === 0
+    ? res.status(200).send("records database is still empty")
+    : res.status(200).send(records);
 };
 
 // grab individual record by id
 exports.getRecord = (req, res, next) => {
   const { id } = req.params;
-  const record = dg.get("records").find({ id });
+  const record = db
+    .get("records")
+    .find({ id })
+    .value();
   res.status(200).send(record);
 };
 
@@ -38,7 +42,7 @@ exports.updateRecord = (req, res, next) => {
   res.status(200).send(record);
 };
 
-exports.addRecord = (res, req, next) => {
+exports.addRecord = (req, res, next) => {
   const record = req.body;
   db.get("records")
     .push(record)

@@ -8,20 +8,23 @@ const db = low(adapter);
 const {
   getRecords,
   getRecord,
-  deleteRecord,
+  deleteRecords,
   updateRecord,
   addRecord
 } = require("../controllers/recordsController");
 
 router
   .route("/")
+  .all((req, res, next) => {
+    next();
+  })
   .get(getRecords)
   .post(addRecord);
 
 router
   .route("/:id")
   .get(getRecord)
-  .delete(deleteRecord)
+  .delete(deleteRecords)
   .put(updateRecord);
 
 module.exports = router;

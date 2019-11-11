@@ -1,29 +1,23 @@
 {
   "records": [
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-  ]
+    {
+      "artist": "Broken Social Scene",
+      "title": "You Forgot It In People",
+      "year": 2004,
+      "id": "1573469612084"
+    },
+    {
+      "artist": "Broken Social Scene",
+      "title": "You Forgot It In People",
+      "year": 2004,
+      "id": "1573469624649"
+    },
+    {
+      "artist": "Broken Social Scene",
+      "title": "You Forgot It In People",
+      "year": 2004,
+      "id": "1573470572209"
+    }
+  ],
+  "users": []
 }
