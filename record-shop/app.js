@@ -18,6 +18,20 @@ const app = express();
 /** LOGGING */
 app.use(logger("dev"));
 
+/** SETTING UP MONGOOSE IN SERVER */
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://127.0.0.1:27017/records", {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+});
+
+const db = mongoose.connection;
+db.on("error", console.log);
+db.on("open", () => {
+  console.log("Database connection is established...");
+});
+
 /** SETTING UP LOWDB */
 const adapter = new FileSync("data/db.json");
 const db = low(adapter);
