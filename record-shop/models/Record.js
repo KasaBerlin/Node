@@ -1,12 +1,29 @@
 const mongoose = require("mongoose");
 
-const recordSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  artist: { type: String, required: true },
-  year: { type: Number, required: true },
-  img: { type: String, required: true },
-  genre: { type: String, required: false },
-  price: { type: Number, required: true }
+const RecordSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true
+  },
+
+  artist: {
+    type: String,
+    required: true
+  },
+
+  year: {
+    type: Number,
+    required: true
+  },
+  img: {
+    type: String,
+    required: true
+  },
+
+  price: {
+    type: Number,
+    required: true
+  }
 });
 
-module.exports = mongoose.model("record", recordSchema);
+module.exports = mongoose.model("Record", RecordSchema);

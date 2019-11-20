@@ -13,40 +13,41 @@ exports.getUsers = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user) throw new createError.TooManyRequests();
+    if (!user) throw new createError.NotFound();
     res.status(200).send(user);
   } catch (e) {
     next(e);
   }
 };
 
-exports.deleteUser = (req, res, next) => {
-  const { id } = req.params;
-  const user = db
-    .get("users")
-    .remove({ id })
-    .write();
-  res.status(200).send(user);
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) throw new createError.NotFound();
+    res.status(200).send(user);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.updateUser = (req, res, next) => {
-  const { id } = req.params;
-  const dt = req.body;
-  const user = db
-    .get("users")
-    .find({ id })
-    .assign(dt)
-    .write();
-  res.status(200).send(user);
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    });
+    if (!user) throw new createError.NotFound();
+    res.status(200).send(user);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.addUser = (req, res, next) => {
-  const user = req.body;
-  db.get("users")
-    .push(user)
-    .last()
-    .assign({ id: Date.now().toString() })
-    .write();
-
-  res.status(200).send(user);
+exports.addUser = async (req, res, next) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.status(200).send(user);
+  } catch (e) {
+    next(e);
+  }
 };

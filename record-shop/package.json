@@ -1,22 +1,26 @@
 {
   "name": "record-shop",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node ./bin/www",
-    "watch": "DEBUG=record-shop:* nodemon --inspect ./bin/www --ignore 'data/*'"
+    "watch": "DEBUG=record-shop:* nodemon --inspect ./bin/www --ignore 'data/*'",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "MIT",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "^4.16.4",
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
     "faker": "^4.1.0",
     "http-errors": "^1.7.3",
-    "lowdb": "^1.0.0",
-    "mongoose": "^5.7.10",
-    "morgan": "~1.9.1",
+    "make": "^0.8.1",
+    "mongoose": "^5.7.12",
+    "morgan": "^1.9.1",
     "nodemon": "^1.19.4",
+    "test": "^0.6.0",
     "uuid": "^3.3.3"
   }
 }
