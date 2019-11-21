@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./bin/www",
-    "watch": "DEBUG=record-shop:* nodemon --inspect ./bin/www --ignore 'data/*'",
+    "watch": "DEBUG=record-shop:* nodemon --inspect=9228 ./bin/www --ignore 'data/*'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
     "cookie-parser": "^1.4.4",
     "debug": "^4.1.1",
     "express": "^4.17.1",
+    "express-validator": "^6.2.0",
     "faker": "^4.1.0",
     "http-errors": "^1.7.3",
     "make": "^0.8.1",

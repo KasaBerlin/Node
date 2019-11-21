@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const createError = require("http-errors");
+const { validationResult } = require("express-validator");
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -44,6 +45,10 @@ exports.updateUser = async (req, res, next) => {
 
 exports.addUser = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() }); //422 code - simply not processible
+    }
     const user = new User(req.body);
     await user.save();
     res.status(200).send(user);

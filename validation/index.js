@@ -21,10 +21,10 @@ console.log(isWindow);
 // - 6 to 12 characters in length
 // - Must have at least one Uppercase
 // - Must have at least one digit
-// - Should contain other characters
+// - Should contain other characters or symbols
 
 const regex2 = /[a-zA-Z]{6,12}|[A-Z]|[0-9]|\w/g;
 const isChecked = regex2.test(str);
 const isMatched = str.match(regex2);
 console.log(isChecked);
-// console.log(isMatched);
+console.log(isMatched);

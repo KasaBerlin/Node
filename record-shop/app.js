@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
+const { body } = require("express-validator");
 
 /** ROUTERS */
 const indexRouter = require("./routes/index");
@@ -40,9 +41,28 @@ app.use(setCors);
 /** STATIC FILES*/
 app.use(express.static(path.join(__dirname, "public")));
 
+const validationParameters = () => {
+  // not production code!!! look at the docs
+  return [
+    body("email")
+      .isEmail()
+      .normalizeEmail()
+      .trim()
+      .withMessage("Your email is looking not valid"),
+    body("password")
+      .isLength({ min: 10 })
+      .withMessage("The minimum length is 10 charakters"),
+    body("firstName")
+      .exists()
+      .trim()
+      .escape()
+      .withMessage("Give us your first name")
+  ];
+};
+
 /** ROUTES */
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/users", validationParameters(), usersRouter);
 app.use("/records", recordsRouter);
 app.use("/orders", ordersRouter);
 
