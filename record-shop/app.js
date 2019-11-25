@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
+const createError=require("http-errors");
+const {userValidationRules,validate}=require("./validators/validator")
 
 /** ROUTERS */
 const indexRouter = require('./routes/index');
@@ -19,17 +19,6 @@ const app = express();
 /** LOGGING */
 app.use(logger('dev'));
 
-
-/** SETTING UP LOWDB */
-const adapter = new FileSync('data/db.json');
-const db = low(adapter);
-db.defaults({
-    records: [],
-    users: [],
-    orders: []
-}).write();
-
-
 /** SETTING UP MONGOOSE IN SERVER */
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/recordShop", {
@@ -38,9 +27,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/recordShop", {
   useUnifiedTopology: true
 });
 
-const dbRecords = mongoose.connection;
-dbRecords.on("error", console.log);
-dbRecords.on("open", () => {
+mongoose.connection.on("error", console.log);
+mongoose.connection.on("open", () => {
   console.log("Database connection is established...");
 });
 
