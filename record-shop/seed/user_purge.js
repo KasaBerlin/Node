@@ -1,4 +1,4 @@
-let faker = require("faker");
+var faker = require("faker");
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
@@ -13,7 +13,7 @@ console.log("I shall purge all users");
   });
 
   mongoose.connection.on("error", console.error);
-  mongoose.connection.on("open", () => {
+  mongoose.connection.on("open", function() {
     console.log("Database connection established...");
   });
 

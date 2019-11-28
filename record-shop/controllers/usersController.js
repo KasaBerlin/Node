@@ -4,7 +4,9 @@ const { validationResult } = require("express-validator");
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select("-password -__v")
+    .sort("lastName")
+    .skip(3);
     res.status(200).send(users);
   } catch (e) {
     next(e);
@@ -13,7 +15,7 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("-password -__v");;
     if (!user) throw new createError.NotFound();
     res.status(200).send(user);
   } catch (e) {
@@ -34,7 +36,8 @@ exports.deleteUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true
+      new: true,
+      runValidators: true
     });
     if (!user) throw new createError.NotFound();
     res.status(200).send(user);
@@ -47,7 +50,7 @@ exports.addUser = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() }); //422 code - simply not processible
+      return res.status(422).json({ errors: errors.array() }); //422 code - simply not processable
     }
     const user = new User(req.body);
     await user.save();
@@ -56,3 +59,4 @@ exports.addUser = async (req, res, next) => {
     next(e);
   }
 };
+

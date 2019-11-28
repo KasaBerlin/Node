@@ -1,9 +1,11 @@
-let faker = require("faker");
+var faker = require("faker");
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
-(async () => {
-  //Connect to DB
+console.log("I shall seed");
+
+(async function() {
+  /**CONNECT TO DB */
   mongoose.connect("mongodb://localhost:27017/record-shop", {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -11,11 +13,11 @@ const User = require("../models/User");
   });
 
   mongoose.connection.on("error", console.error);
-  mongoose.connection.on("open", () => {
+  mongoose.connection.on("open", function() {
     console.log("Database connection established...");
   });
 
-  console.log("This is the purge");
+  console.log("I will purge all the old users...");
 
   try {
     await User.deleteMany({});
@@ -24,7 +26,7 @@ const User = require("../models/User");
     console.error(err);
   }
 
-  const userPromises = Array(5)
+  const userPromises = Array(50)
     .fill(null)
     .map(() => {
       const user = new User({
@@ -39,9 +41,10 @@ const User = require("../models/User");
 
   try {
     await Promise.all(userPromises);
-    console.log("The users are seeded");
+    console.log("Users seeded");
   } catch (e) {
     console.error(e);
   }
+
   mongoose.connection.close();
 })();
