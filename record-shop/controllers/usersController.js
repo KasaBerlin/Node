@@ -5,8 +5,8 @@ const { validationResult } = require("express-validator");
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().select("-password -__v")
-    .sort("lastName")
-    .skip(3);
+    .sort("lastName");
+    // .skip(3);
     res.status(200).send(users);
   } catch (e) {
     next(e);
@@ -53,10 +53,28 @@ exports.addUser = async (req, res, next) => {
       return res.status(422).json({ errors: errors.array() }); //422 code - simply not processable
     }
     const user = new User(req.body);
+    const token=user.generateAuthToken();
     await user.save();
-    res.status(200).send(user);
+    const data=user.getPublicFields();
+    res.status(200).header("x-auth",token).send(data);
   } catch (e) {
     next(e);
   }
 };
 
+ exports.loginUser=async(req,res,next)=>{
+   const email=req.body.email;
+   const password=req.body.password;
+   try{
+     const user=await User.findOne({email});
+     const valid=await user.checkPassword(password);
+     if(!valid) throw new createError.NotFound();
+     
+     const token=generateAuthToken();
+     const data=user.getPublicFields();
+     
+     res.status(200).header("x-auth",token).send(data);
+  }catch(e){
+    next(e);
+  }
+ }

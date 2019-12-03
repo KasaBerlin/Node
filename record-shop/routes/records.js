@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth= require("../middleware/authenticator")
+const isAdmin=require("../middleware/rolesAuthenticator")
 
 const {
   getRecords,
@@ -13,12 +14,14 @@ const {
 router
   .route("/")
   .get(auth,getRecords)
-  .post(auth,addRecord);
+  .post(auth,isAdmin,addRecord);
 
+// router.route("/login").post(loginUser);
+ 
 router
   .route("/:id")
   .get(auth,getRecord)
-  .delete(auth,deleteRecord)
-  .put(auth,updateRecord);
+  .delete(auth,isAdmin,deleteRecord)
+  .put(auth,isAdmin,updateRecord);
 
 module.exports = router;

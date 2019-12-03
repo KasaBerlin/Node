@@ -26,14 +26,18 @@ console.log("I shall seed");
     console.error(err);
   }
 
-  const userPromises = Array(50)
+  const userPromises = Array(10)
     .fill(null)
     .map(() => {
       const user = new User({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: faker.internet.email(),
-        password: faker.internet.password()
+        password: faker.internet.password(),
+        address:{
+          street:faker.address.streetAddress(),
+          city:faker.address.city()
+        }
       });
 
       return user.save();
