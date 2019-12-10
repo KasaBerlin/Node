@@ -4,7 +4,7 @@ const config={
 };
 
 const devConfig={
-    db:"mongodb://localhost:27017//robo-shop"
+    db:"mongodb://localhost:27017/robo-shop"
 };
 
 const prodConfig={

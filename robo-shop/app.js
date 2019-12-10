@@ -10,7 +10,7 @@ const mongoose=require("mongoose");
 
 // Configs
 
-const env=require("./config/enviroment")
+const env=require("./config/environment")
 const userRouter=require("./routes/users")
 
 // Routers 
@@ -32,12 +32,12 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 
 //connect to db
-mongoose.connect()
+mongoose.connect(
 env.db,{
   useNewUrlParser:true,
   useCreateIndex:true,
   useUnifiedTopology:true
-}
+})
 
 mongoose.connection.on("error",console.error);
 mongoose.connection.on("open", function() {
