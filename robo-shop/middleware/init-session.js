@@ -5,3 +5,8 @@ exports.initCart = (req, res, next) => {
 
   next();
 };
+
+exports.setLocals=(req,res,next)=>{
+  res.locals.session=req.session;
+  next();
+}

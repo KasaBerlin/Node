@@ -8,14 +8,18 @@ const logger = require('morgan');
 const sassMiddleware=require("node-sass-middleware")
 const mongoose=require("mongoose");
 const MongoStore=require("connect-mongo")(session);
+const hbs=require("express-handlebars");
+const flash=require("connect-flash");
+const passport=require("./lib/auth")
 
 // Configs
 
 const env=require("./config/environment")
 
-//Middleware 
 
-const {initCart}=require("./middleware/init-session")
+// Middleware 
+
+const {initCart,setLocals}=require("./middleware/init-session")
 
 // Routers 
 
@@ -26,6 +30,9 @@ const usersRouter = require('./routes/users');
 // Init
 
 const app = express();
+
+// Flash 
+app.use(flash());
 
 //connect to db
 
@@ -42,13 +49,21 @@ mongoose.connection.on("open", function() {
 });
 
 // View Engine
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+
+// sets our view engine to handlebars
+app.set('view engine', 'hbs');
+
+// configure handlebars
+app.engine("hbs",hbs({
+  extname:"hbs", // extension name for handlebars files
+  defaultLayout:"layout", // template name for default layout 
+  // set up directories
+  layoutsDir:path.join(__dirname, "views","layouts"),
+  partialsDir:path.join(__dirname,"views","partials")
+}))
 
 // Logging 
 app.use(logger('dev'));
-
 
 // Request Parsers
 app.use(express.json());
@@ -60,7 +75,7 @@ app.use(
     // The secret allows for signed cookies and helps prevent fake requests from being made
     secret: env.secrets.session,
     // Disables defaults that are about to be deprecated
-    // resave: false,
+    resave: false,
     saveUninitialized: false,
     // Set general options for the sessionID cookie
     cookie: {
@@ -75,13 +90,24 @@ app.use(
   })
 );
 
+// flash
+app.use(flash());
+
+// auth
+app.use(passport.initalize());
+app.use(passport.session());
+
 // Static Asset Handling
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+//custom middleware
+app.use([initCart,setLocals])
 
 // Routes
 app.use('/', indexRouter);
 app.use('/cart',cartRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 
 // Error Handling
 // catch 404 and forward to error handler

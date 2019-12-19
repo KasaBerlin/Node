@@ -1,9 +1,27 @@
 const Product = require("../models/product");
 
+// Helpers 
+const {fixPrecision}=require("../lib/helpers")
+
 // gets the cart from our session
 exports.get =(req,res)=>{
     const {cart}=req.session;
-    res.json({cart})
+    const {totalQty,totalPrice}=cart;
+    const vat=19;
+    //fixes rounding errors
+    const vatPrice=fixPrecision((totalPrice/100)*vat);
+
+
+    res.render("shop/cart", {
+      title: "Robo Shop | Cart",
+      items: cart.toArray(),
+      totalQty,
+      totalPrice,
+      vat,
+      vatPrice,
+      finalPrice: fixPrecision(totalPrice + vatPrice)
+    })
+
 }
 
 exports.add = async (req, res, next) => {
@@ -13,7 +31,10 @@ exports.add = async (req, res, next) => {
     const product = await Product.findById(id);
     req.session.cart.add(product.id, product);
 
-    res.json(req.session.cart);
+    req.flash("cart-info","Item added to cart!");
+
+    // redirect the request back to where it was made
+    res.redirect("back");
   } catch (err) {
     next(err);
   }
@@ -25,7 +46,8 @@ exports.remove=async (req,res)=>{
 
     //remove product from cart
     req.session.cart.remove(id);
-    res.json(req.session.cart);
+      // redirect the request back to where it was made
+    res.redirect("back");
 };
 
 exports.removeAll=(req,res)=>{
@@ -33,6 +55,7 @@ exports.removeAll=(req,res)=>{
     const {id}=req.params
 
     // remove entire cart item
-    req.session.cart.removeAll(id)
-    res.json(req.session.cart)
+    req.session.cart.removeAll(id);
+      // redirect the request back to where it was made
+    res.redirect("back");
 }
