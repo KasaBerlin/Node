@@ -1,39 +1,80 @@
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('data/db.json');
-const db = low(adapter);
+const User = require("../models/User");
+const createError = require("http-errors");
+const { validationResult } = require("express-validator");
 
-
-exports.getUsers = (req, res, next) => {
-    const users = db.get('users').value()
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find().select("-password -__v")
+    .sort("lastName");
+    // .skip(3);
     res.status(200).send(users);
-}
+  } catch (e) {
+    next(e);
+  }
+};
 
-exports.getUser = (req, res, next) => {
-    const { id } = req.params;
-    const user = db.get('users').find({ id });
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password -__v");;
+    if (!user) throw new createError.NotFound();
     res.status(200).send(user);
-}
+  } catch (e) {
+    next(e);
+  }
+};
 
-exports.deleteUser = (req, res, next) => {
-    const { id } = req.params;
-    const user = db.get('users').remove({ id }).write();
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) throw new createError.NotFound();
     res.status(200).send(user);
-}
+  } catch (e) {
+    next(e);
+  }
+};
 
-exports.updateUser = (req, res, next) => {
-    const { id } = req.params;
-    const dt = req.body;
-    const user = db.get('users').find({ id }).assign(dt).write();
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+    if (!user) throw new createError.NotFound();
     res.status(200).send(user);
-}
+  } catch (e) {
+    next(e);
+  }
+};
 
-exports.addUser = (req, res, next) => {
-    const user = req.body;
-    db.get('users').push(user)
-        .last()
-        .assign({ id: Date.now().toString() })
-        .write()
+exports.addUser = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() }); //422 code - simply not processable
+    }
+    const user = new User(req.body);
+    const token=user.generateAuthToken();
+    await user.save();
+    const data=user.getPublicFields();
+    res.status(200).header("x-auth",token).send(data);
+  } catch (e) {
+    next(e);
+  }
+};
 
-    res.status(200).send(user);
-}
+ exports.loginUser=async(req,res,next)=>{
+   const email=req.body.email;
+   const password=req.body.password;
+   try{
+     const user=await User.findOne({email});
+     const valid=await user.checkPassword(password);
+     if(!valid) throw new createError.NotFound();
+     
+     const token=generateAuthToken();
+     const data=user.getPublicFields();
+     
+     res.status(200).header("x-auth",token).send(data);
+  }catch(e){
+    next(e);
+  }
+ }

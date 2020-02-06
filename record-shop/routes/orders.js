@@ -1,22 +1,25 @@
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('data/db.json');
-const db = low(adapter);
-const { getOrders, getOrder, updateOrder, deleteOrder, addOrder } = require('../controllers/ordersController');
+const auth= require("../middleware/authenticator")
+const isAdmin=require("../middleware/rolesAuthenticator")
 
+const {
+  getOrders,
+  getOrder,
+  updateOrder,
+  deleteOrder,
+  addOrder
+} = require("../controllers/ordersController");
 
-router.
-    route('/').   
-    get(getOrders).
-    post(addOrder);
+router
+  .route("/")
+  .get(auth,isAdmin,getOrders)
+  .post(auth,addOrder);
 
-router.
-    route('/:id').   
-    get(getOrder).
-    delete(deleteOrder).
-    put(updateOrder);
+router
+  .route("/:id")
+  .get(auth,getOrder)
+  .delete(auth,deleteOrder)
+  .put(auth,updateOrder);
 
 module.exports = router;

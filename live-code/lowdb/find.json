@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "name": "Sylvia",
+      "lastVisit": "2019-11-05T08:44:58.339Z",
+      "visits": 5
+    },
+    {
+      "name": "Kohei",
+      "lastVisit": "2019-11-05T08:44:58.341Z",
+      "visits": 5
+    },
+    {
+      "name": "Rufus",
+      "lastVisit": "2019-11-05T08:44:58.341Z",
+      "visits": 5
+    }
+  ]
+}
